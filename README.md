@@ -1,5 +1,7 @@
 # quiz
 
+**▶ Live site: https://prislee.github.io/quiz/**
+
 An interactive, self-paced course on the [IDG Product Thinking learning pathway](https://www.idg.gov.sg/product-thinking/).
 
 Eight illustrated lessons summarising the pathway's frameworks — the Five Whys, the 4Cs, SMART, leading and lagging indicators, the value-cost ratio, staged de-risking, and the 11-star framework. Each lesson carries a hand-drawn SVG diagram of the mechanism it teaches and ends in a multiple-choice question, with the explanation for the correct answer shown whether or not you got it right.
@@ -8,7 +10,9 @@ Each lesson has its own colour, carried through the progress pips, the lesson he
 
 ## Running it
 
-Open `index.html` in a browser. No build step, no dependencies.
+The site is published with GitHub Pages from `main` at the repository root — pushing to `main` redeploys it.
+
+To run it locally, open the file directly. No build step, no dependencies.
 
 ```
 open index.html
