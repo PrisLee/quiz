@@ -1,0 +1,675 @@
+<title>Product Thinking Pathway</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,600&display=swap">
+<style>
+:root{
+  --paper:#F1F2EE; --surface:#FFFFFF; --surface-2:#F8F8F5;
+  --ink:#1A1D24; --ink-2:#3B424E; --muted:#666E7C;
+  --rule:#DBDDD7; --rule-strong:#C2C6BE;
+  --accent:#2D4F8B; --accent-ink:#22406F; --accent-soft:#E5EAF4; --on-accent:#FFFFFF;
+  --ochre:#8F6011; --ochre-soft:#F3EBDA;
+  --correct:#1C6A48; --correct-soft:#E3F0E9; --correct-rule:#9FC9B4;
+  --wrong:#A03123; --wrong-soft:#F8E7E4; --wrong-rule:#DBA79F;
+  --shadow:0 1px 2px rgba(26,29,36,.05), 0 8px 24px -16px rgba(26,29,36,.22);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1217; --surface:#171B21; --surface-2:#1C212A;
+    --ink:#E8EAEE; --ink-2:#C3C9D3; --muted:#8C94A2;
+    --rule:#282E38; --rule-strong:#3A414E;
+    --accent:#8CAFE8; --accent-ink:#AAC6F2; --accent-soft:#1B2740; --on-accent:#0F1217;
+    --ochre:#D7A64B; --ochre-soft:#2A2313;
+    --correct:#5FC496; --correct-soft:#12291D; --correct-rule:#2C6248;
+    --wrong:#EE8B7C; --wrong-soft:#2D130F; --wrong-rule:#6B342B;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1217; --surface:#171B21; --surface-2:#1C212A;
+  --ink:#E8EAEE; --ink-2:#C3C9D3; --muted:#8C94A2;
+  --rule:#282E38; --rule-strong:#3A414E;
+  --accent:#8CAFE8; --accent-ink:#AAC6F2; --accent-soft:#1B2740; --on-accent:#0F1217;
+  --ochre:#D7A64B; --ochre-soft:#2A2313;
+  --correct:#5FC496; --correct-soft:#12291D; --correct-rule:#2C6248;
+  --wrong:#EE8B7C; --wrong-soft:#2D130F; --wrong-rule:#6B342B;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Public Sans","Helvetica Neue",Arial,sans-serif;
+  font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+h1,h2,h3{font-family:"Source Serif 4",Georgia,"Times New Roman",serif; text-wrap:balance; margin:0}
+a{color:var(--accent-ink)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:2px}
+@media (prefers-reduced-motion: reduce){*{animation:none!important; transition:none!important}}
+
+/* ---------- masthead ---------- */
+.masthead{border-bottom:1px solid var(--rule); background:var(--surface)}
+.masthead-in{max-width:1120px; margin:0 auto; padding-block:22px 0; padding-left:20px; padding-right:20px}
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:500;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0;
+}
+.masthead h1{font-size:clamp(28px,5vw,40px); font-weight:700; letter-spacing:-.015em; margin:6px 0 4px}
+.masthead p.dek{margin:0; color:var(--ink-2); max-width:62ch; font-size:15.5px}
+.masthead .src{margin:10px 0 0; font-size:13px; color:var(--muted)}
+.progress-strip{display:flex; align-items:baseline; gap:12px; margin-top:18px; padding-bottom:16px}
+.bar{flex:1; height:5px; background:var(--rule); border-radius:99px; overflow:hidden}
+.bar span{display:block; height:100%; background:var(--accent); width:0; transition:width .35s ease}
+.bar-label{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--muted); font-variant-numeric:tabular-nums; white-space:nowrap}
+
+/* ---------- shell ---------- */
+.shell{max-width:1120px; margin:0 auto; padding-left:20px; padding-right:20px; padding-block:32px 72px;
+  display:grid; grid-template-columns:236px minmax(0,1fr); gap:48px; align-items:start}
+
+/* ---------- ladder rail ---------- */
+.rail{position:sticky; top:24px}
+.rail h2{font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:500; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--muted); margin:0 0 12px 0}
+.rail ol{list-style:none; margin:0; padding:0; display:flex; flex-direction:column}
+.rail li{position:relative}
+.rail button{
+  width:100%; display:grid; grid-template-columns:26px 1fr; gap:12px; align-items:start;
+  background:none; border:0; padding:9px 0; text-align:left; cursor:pointer; color:var(--muted);
+  font-family:inherit; font-size:14px; line-height:1.35;
+}
+.rail .num{
+  font-family:"IBM Plex Mono",monospace; font-size:11px; font-variant-numeric:tabular-nums;
+  height:22px; width:22px; display:grid; place-items:center; border-radius:50%;
+  border:1px solid var(--rule-strong); color:var(--muted); background:var(--surface); margin-top:1px;
+}
+.rail li::after{content:""; position:absolute; left:11px; top:32px; bottom:0; width:1px; background:var(--rule)}
+.rail li:last-child::after{display:none}
+.rail button:hover{color:var(--ink)}
+.rail button[aria-current="true"]{color:var(--ink); font-weight:600}
+.rail button[aria-current="true"] .num{border-color:var(--accent); color:var(--accent); background:var(--accent-soft)}
+.rail li[data-state="correct"] .num{border-color:var(--correct-rule); background:var(--correct-soft); color:var(--correct)}
+.rail li[data-state="wrong"] .num{border-color:var(--wrong-rule); background:var(--wrong-soft); color:var(--wrong)}
+
+/* ---------- lesson ---------- */
+.lesson{max-width:66ch}
+.lesson-head{border-bottom:1px solid var(--rule); padding-bottom:18px; margin-bottom:26px}
+.lesson-head .eyebrow{color:var(--ochre)}
+.lesson h2{font-size:clamp(25px,4vw,33px); font-weight:700; letter-spacing:-.012em; margin:8px 0 10px}
+.lede{font-size:18px; line-height:1.55; color:var(--ink-2); margin:0}
+.lesson p{margin:0 0 16px}
+.lesson h3{font-size:19px; font-weight:600; margin:30px 0 10px}
+.lesson ul{margin:0 0 16px; padding-left:20px}
+.lesson li{margin-bottom:7px}
+strong{font-weight:600}
+.q-term{color:var(--accent-ink); font-weight:600}
+
+blockquote{
+  margin:22px 0; padding:0 0 0 18px; border-left:2px solid var(--ochre);
+  font-family:"Source Serif 4",Georgia,serif; font-size:19px; font-style:italic; line-height:1.5; color:var(--ink);
+}
+blockquote cite{display:block; margin-top:8px; font-family:"IBM Plex Mono",monospace; font-style:normal;
+  font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+
+/* framework grid (non-sequential) */
+.grid-3{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:1px; background:var(--rule);
+  border:1px solid var(--rule); margin:22px 0}
+.grid-3 > div{background:var(--surface); padding:15px 16px}
+.grid-3 .k{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:6px}
+.grid-3 .v{font-size:14.5px; line-height:1.45; color:var(--ink-2)}
+
+/* 4Cs */
+.cs{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1px; background:var(--rule);
+  border:1px solid var(--rule); margin:22px 0}
+.cs > div{background:var(--surface); padding:16px}
+.cs .letter{font-family:"Source Serif 4",Georgia,serif; font-size:30px; font-weight:700; color:var(--ochre); line-height:1}
+.cs .name{font-weight:600; margin:6px 0 4px; font-size:15.5px}
+.cs .ask{font-size:14px; color:var(--muted); line-height:1.45}
+
+/* ordered sequence (real progressions only) */
+.seq{list-style:none; margin:22px 0; padding:0; counter-reset:s}
+.seq li{counter-increment:s; display:grid; grid-template-columns:28px 1fr; gap:14px; padding:11px 0;
+  border-top:1px solid var(--rule); margin:0}
+.seq li:last-child{border-bottom:1px solid var(--rule)}
+.seq li::before{content:counter(s,decimal-leading-zero); font-family:"IBM Plex Mono",monospace; font-size:11.5px;
+  color:var(--ochre); font-variant-numeric:tabular-nums; padding-top:4px}
+.seq .lab{font-weight:600}
+.seq .sub{color:var(--muted); font-size:14.5px; display:block; font-weight:400}
+
+/* two-column contrast */
+.vs{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--rule); border:1px solid var(--rule); margin:22px 0}
+.vs > div{background:var(--surface); padding:16px}
+.vs .hd{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase; margin-bottom:9px}
+.vs .out .hd{color:var(--muted)}
+.vs .oc .hd{color:var(--correct)}
+.vs ul{margin:0; padding-left:17px; font-size:14.5px; color:var(--ink-2)}
+.vs li{margin-bottom:5px}
+
+/* case study callout */
+.case{background:var(--surface-2); border:1px solid var(--rule); border-left:3px solid var(--accent); padding:18px 20px; margin:24px 0}
+.case .tag{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:8px}
+.case p:last-child{margin-bottom:0}
+.figures{display:flex; gap:28px; margin:14px 0 4px; flex-wrap:wrap}
+.figures div{min-width:0}
+.figures .n{font-family:"Source Serif 4",Georgia,serif; font-size:30px; font-weight:700; line-height:1; font-variant-numeric:tabular-nums}
+.figures .c{color:var(--muted)} .figures .t{color:var(--correct)}
+.figures .cap{font-size:12.5px; color:var(--muted); margin-top:5px}
+
+/* worked example */
+.worked{border:1px solid var(--rule); background:var(--surface); margin:22px 0}
+.worked .hd{padding:11px 16px; border-bottom:1px solid var(--rule); background:var(--surface-2);
+  font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+.worked dl{margin:0; padding:6px 16px 14px}
+.worked dt{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--accent); margin-top:12px}
+.worked dd{margin:3px 0 0; font-size:15px; color:var(--ink-2)}
+
+/* ---------- question card ---------- */
+.quiz{margin-top:40px; border:1px solid var(--rule-strong); background:var(--surface); box-shadow:var(--shadow)}
+.quiz-hd{padding:14px 20px; border-bottom:1px solid var(--rule); display:flex; justify-content:space-between;
+  align-items:center; gap:12px; flex-wrap:wrap}
+.quiz-hd .tag{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent)}
+.quiz-hd .state{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+.quiz-body{padding:20px}
+.quiz-q{font-family:"Source Serif 4",Georgia,serif; font-size:20px; font-weight:600; line-height:1.4; margin:0 0 18px}
+.opts{display:flex; flex-direction:column; gap:8px}
+.opt{
+  display:grid; grid-template-columns:26px 1fr auto; gap:12px; align-items:start; width:100%;
+  padding:13px 14px; background:var(--surface); border:1px solid var(--rule-strong); border-radius:3px;
+  font-family:inherit; font-size:15px; line-height:1.45; color:var(--ink); text-align:left; cursor:pointer;
+  transition:border-color .15s ease, background .15s ease;
+}
+.opt:hover:not([data-locked]){border-color:var(--accent); background:var(--accent-soft)}
+.opt[data-locked]{cursor:default}
+.opt .k{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--muted); padding-top:2px}
+.opt .mark{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; padding-top:3px}
+.opt[data-role="correct"]{border-color:var(--correct-rule); background:var(--correct-soft)}
+.opt[data-role="correct"] .k, .opt[data-role="correct"] .mark{color:var(--correct)}
+.opt[data-role="chosen-wrong"]{border-color:var(--wrong-rule); background:var(--wrong-soft)}
+.opt[data-role="chosen-wrong"] .k, .opt[data-role="chosen-wrong"] .mark{color:var(--wrong)}
+.opt[data-role="muted"]{opacity:.62}
+
+.explain{margin-top:18px; border-top:1px solid var(--rule); padding-top:16px}
+.explain .verdict{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.12em;
+  text-transform:uppercase; margin-bottom:9px}
+.explain .verdict.ok{color:var(--correct)} .explain .verdict.no{color:var(--wrong)}
+.explain h4{font-family:"Source Serif 4",Georgia,serif; font-size:16px; font-weight:600; margin:0 0 7px}
+.explain p{margin:0 0 11px; font-size:15px; color:var(--ink-2)}
+.explain p:last-child{margin-bottom:0}
+
+/* ---------- lesson nav ---------- */
+.lesson-nav{display:flex; justify-content:space-between; gap:12px; margin-top:32px; padding-top:20px; border-top:1px solid var(--rule)}
+.btn{font-family:inherit; font-size:14.5px; font-weight:500; padding:10px 18px; border-radius:3px; cursor:pointer;
+  border:1px solid var(--rule-strong); background:var(--surface); color:var(--ink)}
+.btn:hover{border-color:var(--accent); color:var(--accent-ink)}
+.btn.primary{background:var(--accent); border-color:var(--accent); color:var(--on-accent)}
+.btn.primary:hover{background:var(--accent-ink); border-color:var(--accent-ink); color:var(--on-accent)}
+.btn[disabled]{opacity:.4; cursor:not-allowed}
+.btn[disabled]:hover{border-color:var(--rule-strong); color:var(--ink)}
+
+/* ---------- scorecard ---------- */
+.scorecard{border:1px solid var(--rule-strong); background:var(--surface); box-shadow:var(--shadow); margin-top:44px}
+.scorecard .hd{padding:20px 22px; border-bottom:1px solid var(--rule)}
+.scorecard h3{font-size:23px; font-weight:700; margin:6px 0 0}
+.score-num{font-family:"Source Serif 4",Georgia,serif; font-size:46px; font-weight:700; line-height:1; font-variant-numeric:tabular-nums}
+.scorecard ol{list-style:none; margin:0; padding:6px 22px 8px}
+.scorecard ol li{display:grid; grid-template-columns:26px 1fr auto; gap:12px; padding:9px 0;
+  border-bottom:1px solid var(--rule); font-size:14.5px; align-items:baseline}
+.scorecard ol li:last-child{border-bottom:0}
+.scorecard .n{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--muted); font-variant-numeric:tabular-nums}
+.scorecard .res{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.08em; text-transform:uppercase}
+.scorecard .res.ok{color:var(--correct)} .scorecard .res.no{color:var(--wrong)} .scorecard .res.na{color:var(--muted)}
+.scorecard .ft{padding:16px 22px 20px; border-top:1px solid var(--rule); display:flex; gap:10px; flex-wrap:wrap}
+
+footer.page{max-width:1120px; margin:0 auto; padding-left:20px; padding-right:20px; padding-block:0 40px;
+  font-size:13px; color:var(--muted)}
+footer.page a{color:var(--muted)}
+
+/* ---------- responsive ---------- */
+@media (max-width:860px){
+  .shell{grid-template-columns:1fr; gap:26px}
+  .rail{position:static; border-bottom:1px solid var(--rule); padding-bottom:18px}
+  .rail ol{flex-direction:row; gap:8px; overflow-x:auto; padding-bottom:4px}
+  .rail li::after{display:none}
+  .rail button{width:auto; grid-template-columns:auto; gap:0; padding:0}
+  .rail .txt{display:none}
+  .rail .num{height:32px; width:32px; font-size:12px}
+  .vs{grid-template-columns:1fr}
+  .lesson-nav{flex-direction:column-reverse}
+  .lesson-nav .btn{width:100%}
+}
+</style>
+
+<header class="masthead">
+  <div class="masthead-in">
+    <p class="eyebrow">Institute of Digital Government · Learning Pathway</p>
+    <h1>Product Thinking</h1>
+    <p class="dek">Eight lessons on diagnosing problems before reaching for solutions — with a question after each one, and the reasoning explained either way.</p>
+    <p class="src">Summarised from <a href="https://www.idg.gov.sg/product-thinking/" target="_blank" rel="noopener">idg.gov.sg/product-thinking</a>. Worked examples marked <em>illustrative</em> are written for this course; case figures and quotes are from the source material.</p>
+    <div class="progress-strip">
+      <div class="bar"><span id="bar-fill"></span></div>
+      <div class="bar-label" id="bar-label">0 of 8 answered</div>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="rail" aria-label="Lessons">
+    <h2>The pathway</h2>
+    <ol id="rail"></ol>
+  </nav>
+  <main>
+    <article class="lesson" id="lesson"></article>
+    <section class="scorecard" id="scorecard" hidden></section>
+  </main>
+</div>
+
+<footer class="page">
+  <p>Progress is saved in this browser only. Nothing is sent anywhere.</p>
+</footer>
+
+<script>
+const LESSONS = [
+{
+  title:"Great products start with problems",
+  short:"Understanding the problem",
+  lede:"Most digital projects don't fail because the build was bad. They fail because the team solved the wrong problem.",
+  body:`
+    <p>The tell is in the kickoff. A team opens with <em>“we need a CRM”</em> or <em>“we need more AI”</em> — a technology — before anyone has diagnosed what is actually blocking the outcome they care about. The solution arrives before the diagnosis, and everything downstream inherits that mistake.</p>
+    <p>Product thinking rests on three commitments:</p>
+    <div class="grid-3">
+      <div><div class="k">Focus</div><div class="v">Anchor on the problem, not on the technology you were hoping to use.</div></div>
+      <div><div class="k">Outcomes</div><div class="v">Chase the change you want in the world, not the features you ship.</div></div>
+      <div><div class="k">Integration</div><div class="v">Bring policy, operations and technology into the same conversation.</div></div>
+    </div>
+    <h3>Start narrow, then scale</h3>
+    <p>The companies people cite as visionary did not begin with the vision:</p>
+    <ul>
+      <li><strong>Grab</strong> started with taxis.</li>
+      <li><strong>Amazon</strong> started with books.</li>
+      <li><strong>Netflix</strong> started with DVD rentals.</li>
+    </ul>
+    <blockquote>None started with the full vision. They each nailed one problem first, then scaled.<cite>Module 1 · Understanding the Problem</cite></blockquote>`,
+  q:"A project kickoff opens with: “We need to add an AI assistant to the licensing portal.” On product thinking's own terms, what is wrong with starting here?",
+  options:[
+    "A technology has been chosen before anyone diagnosed what is actually blocking the outcome",
+    "AI assistants are rarely suitable for statutory government services",
+    "The team should have mapped the complete long-term vision before starting anything",
+    "The portal should be replaced wholesale rather than extended"
+  ],
+  answer:0,
+  explain:`<p>The problem is sequence, not the technology. An AI assistant may well turn out to be right — but nobody yet knows what barrier it is meant to remove, so there is no way to tell. Product thinking insists on diagnosing the blocker first; the solution is chosen afterwards, against that diagnosis.</p>
+    <p>The other options misread the lesson. It never claims AI is unsuitable for government work, and it argues the opposite of “map the full vision first”: Grab began with taxis, Amazon with books, Netflix with DVD rentals — each nailed a single problem, then scaled.</p>`
+},
+{
+  title:"Start with the whys",
+  short:"Start with the whys",
+  lede:"The Five Whys is a simple tool that moves you from symptom to cause.",
+  body:`
+    <p>The first answer a team gives is almost always a symptom. Asking “why” repeatedly walks the chain backwards until you reach something that would actually change the outcome if you fixed it.</p>
+    <div class="worked">
+      <div class="hd">Worked example · illustrative</div>
+      <ol class="seq" style="margin:0; padding:0 16px 8px">
+        <li><span><span class="lab">Why have renewal enquiry calls risen 40%?</span><span class="sub">Applicants can't tell whether their submission went through.</span></span></li>
+        <li><span><span class="lab">Why can't they tell?</span><span class="sub">Nothing is sent to them after they submit.</span></span></li>
+        <li><span><span class="lab">Why is nothing sent?</span><span class="sub">The form writes into a processing queue with no notification step.</span></span></li>
+        <li><span><span class="lab">Why is there no notification step?</span><span class="sub">It was out of scope — the release was scoped to digitising the form.</span></span></li>
+        <li><span><span class="lab">Why was it scoped that way?</span><span class="sub">Success was defined as “the form is online”, not “the applicant knows where they stand”.</span></span></li>
+      </ol>
+    </div>
+    <p>Note where that lands. The call volume looked like a contact-centre problem; five whys later it is a problem with how success was defined.</p>
+    <h3>Choosing the right level to fix</h3>
+    <p>Problems rarely have one root cause. Walking the chain will hand you several candidates, and going deeper is not automatically better — keep asking and you eventually arrive at causes no team can act on. Pick the cause that meets both tests:</p>
+    <ul>
+      <li>It falls within <span class="q-term">your sphere of control</span>.</li>
+      <li>It connects closely to <span class="q-term">the outcome you intend to change</span>.</li>
+    </ul>`,
+  q:"Your Five Whys produces several plausible causes at different depths. Which one should the team act on?",
+  options:[
+    "The deepest cause reached, since it is closest to the true root",
+    "The cause that sits within your sphere of control and connects closely to the outcome you want to change",
+    "Whichever cause is cheapest and fastest to fix",
+    "All of them at once, so nothing is missed"
+  ],
+  answer:1,
+  explain:`<p>Both tests have to hold together. A cause you genuinely control but which barely moves the outcome buys you a fix nobody notices; a cause tightly bound to the outcome but outside your control produces a diagnosis you can only escalate, not act on.</p>
+    <p>Depth alone is the common trap — the lesson's point is that problems rarely have one root cause, so “deepest” is not a selection rule. Cost is a consideration once you have candidates that pass both tests, not a substitute for them, and spreading the team across every cause abandons the focus the exercise was meant to create.</p>`
+},
+{
+  title:"Craft a clear problem statement",
+  short:"The 4Cs",
+  lede:"The 4Cs turn a root cause into a statement sharp enough to align a team.",
+  body:`
+    <p>A problem statement is not a summary — it is the artefact the team keeps returning to when scope drifts. The 4Cs give it four load-bearing parts, each answering a different question:</p>
+    <div class="cs">
+      <div><div class="letter">C</div><div class="name">Clarity</div><div class="ask">What exactly is happening, and to whom?</div></div>
+      <div><div class="letter">C</div><div class="name">Consequence</div><div class="ask">What does it cost if nothing changes?</div></div>
+      <div><div class="letter">C</div><div class="name">Cause</div><div class="ask">Why is it happening?</div></div>
+      <div><div class="letter">C</div><div class="name">Confirmation</div><div class="ask">What evidence shows this is real, not assumed?</div></div>
+    </div>
+    <p><strong>Cause</strong> and <strong>Confirmation</strong> are the two most often skipped, and they do different jobs. Cause is your explanation; Confirmation is the evidence that your explanation — and the problem itself — survives contact with data.</p>
+    <div class="worked">
+      <div class="hd">Worked example · repeated form-filling across agencies</div>
+      <dl>
+        <dt>Clarity</dt><dd>Citizens applying for support schemes re-enter the same personal particulars on every agency's form.</dd>
+        <dt>Consequence</dt><dd>Applications take longer, error rates rise, and some applicants abandon partway — delaying help for people who already qualify.</dd>
+        <dt>Cause</dt><dd>Each agency collects its own copy of the particulars; no service reads data the citizen has already verified elsewhere.</dd>
+        <dt>Confirmation</dt><dd>Form analytics quantify the repeated fields and the drop-off point; applicant interviews confirm the abandonment is caused by re-entry, not eligibility.</dd>
+      </dl>
+    </div>
+    <p>Written this way, the statement articulates the root cause in language that aligns policy, operations and delivery on the same problem — and makes it obvious when a proposed feature has stopped addressing it.</p>`,
+  q:"A draft statement names precisely who is affected and what it costs the agency if nothing changes, and cites survey data showing the problem is real — but never says why it is happening. Which of the 4Cs is missing?",
+  options:["Clarity","Consequence","Cause","Confirmation"],
+  answer:2,
+  explain:`<p><strong>Cause</strong> is the gap. The draft has Clarity (who is affected, what is happening), Consequence (the cost of inaction) and Confirmation (survey evidence that it is real) — but no explanation of <em>why</em>.</p>
+    <p>This is the most expensive C to omit, because a statement without it invites the team to attack the symptom. Confirmation is easily mistaken for it: evidence that a problem exists is not an account of what produces it. Cause is where the Five Whys work from the previous lesson gets written down.</p>`
+},
+{
+  title:"Metrics that measure change, not activity",
+  short:"Outcomes & SMART",
+  lede:"Learn how to choose metrics that reflect real outcomes.",
+  body:`
+    <p>The distinction that does the most work here is between what you produced and what changed because of it. An <strong>output</strong> is a deliverable. An <strong>outcome</strong> is a difference in the world. Teams drift toward outputs because they are fully within the team's control and always available to report.</p>
+    <div class="vs">
+      <div class="out"><div class="hd">Outputs — what shipped</div>
+        <ul><li>Features released this quarter</li><li>User stories closed</li><li>API endpoints delivered</li><li>Portal launched on schedule</li></ul></div>
+      <div class="oc"><div class="hd">Outcomes — what changed</div>
+        <ul><li>Median completion time down from 18 to 6 minutes</li><li>Submission error rate halved</li><li>Enquiry calls per 1,000 applications down</li><li>Eligible applicants who complete, up</li></ul></div>
+    </div>
+    <p>A service can ship every planned feature on time and change nothing. That is a project succeeding at its outputs while failing at its purpose.</p>
+    <h3>SMART: five properties of a usable metric</h3>
+    <ul>
+      <li><strong>Specific</strong> — clearly defined, so two people compute it the same way.</li>
+      <li><strong>Measurable</strong> — you can actually obtain the number.</li>
+      <li><strong>Achievable</strong> — realistic and attainable.</li>
+      <li><strong>Relevant</strong> — aligned to the outcome in your problem statement.</li>
+      <li><strong>Time-bound</strong> — pinned to a defined period.</li>
+    </ul>
+    <p>SMART is the first of the module's three tools. The other two — leading and lagging indicators, and the value-cost ratio — come next.</p>`,
+  q:"Which of these is an outcome metric rather than an output metric?",
+  options:[
+    "Fourteen features released in the last quarter",
+    "Median time for a citizen to complete a licence application, down from 18 minutes to 6",
+    "All planned user stories closed before the release date",
+    "Twelve new API endpoints delivered to partner agencies"
+  ],
+  answer:1,
+  explain:`<p>Completion time measures a change in what citizens experience — it can move only if the service actually got easier to use. That makes it an outcome.</p>
+    <p>The other three count work produced: features, stories and endpoints are all fully within the team's control and can all hit their targets while nothing improves for anyone. That is exactly the failure mode the lesson warns about — defining success by what was built rather than what changed. Note that the outcome metric here also satisfies SMART: it is specific, measurable, bounded to a period, and tied to the outcome in the problem statement.</p>`
+},
+{
+  title:"Early signals and the value of a dollar",
+  short:"Indicators & VCR",
+  lede:"Leading indicators provide early feedback, while lagging indicators measure real outcomes.",
+  body:`
+    <p>Outcome metrics have a timing problem: the ones that matter most usually take months to move. If those are the only numbers you watch, you learn whether the bet worked long after you could have changed course.</p>
+    <div class="vs">
+      <div class="out"><div class="hd">Leading — early feedback</div>
+        <ul><li>Weekly first-time completions</li><li>Drop-off rate at step 3 of the form</li><li>Share of submissions needing rework</li></ul></div>
+      <div class="oc"><div class="hd">Lagging — real outcomes</div>
+        <ul><li>Annual processing cost per application</li><li>Quarterly enquiry call volume</li><li>Yearly share of eligible citizens served</li></ul></div>
+    </div>
+    <p>The two are not alternatives. Leading indicators tell you early whether you are on track; lagging indicators confirm whether the outcome actually arrived. Watch only the leading ones and you optimise a proxy; watch only the lagging ones and you find out too late.</p>
+    <h3>The value-cost ratio</h3>
+    <p>The <span class="q-term">VCR</span> measures how much value is generated for every dollar spent, and it is what lets a team make the case for continued investment in language a funding decision is actually made in.</p>
+    <p>Applied to your own work, the exercise runs in three moves: identify the metric that best represents your problem statement, map the leading and lagging indicators to locate that metric in the chain, then calculate the current VCR and ask what change would improve it.</p>`,
+  q:"A team tracks weekly first-time form completions and annual processing cost per application. How should these be classified?",
+  options:[
+    "Weekly completions are lagging; annual processing cost is leading",
+    "Weekly completions are leading; annual processing cost is lagging",
+    "Both are lagging, because both are measured after release",
+    "Both are leading, because both can be tracked continuously"
+  ],
+  answer:1,
+  explain:`<p>Weekly first-time completions move within days and give early feedback on whether the change is working. Annual processing cost is the real outcome — the thing the work was funded to shift — and it confirms the result only after a long lag.</p>
+    <p>The frequency of measurement is not what separates them, which is what makes options 3 and 4 tempting. What separates them is <em>what</em> each one tells you: an early signal that you are on track, versus a confirmation that the outcome arrived. A team needs both, and the VCR then translates that outcome into value per dollar spent — the form the case for continued investment has to take.</p>`
+},
+{
+  title:"Assumptions and risks",
+  short:"Assumptions & risks",
+  lede:"Surface, stress-test and de-risk your assumptions early — before production does it for you.",
+  body:`
+    <p>Every digital product carries three kinds of risk, and they fail in different ways:</p>
+    <div class="grid-3">
+      <div><div class="k">Market risk</div><div class="v">Will anyone actually use this?</div></div>
+      <div><div class="k">Technical risk</div><div class="v">Can it be built and made to work?</div></div>
+      <div><div class="k">Team risk</div><div class="v">Can this team deliver it?</div></div>
+    </div>
+    <p>The way to retire them is to build in stages, each one buying down more risk than the last:</p>
+    <ol class="seq">
+      <li><span><span class="lab">Proof of concept</span><span class="sub">Does the approach work at all?</span></span></li>
+      <li><span><span class="lab">Proof of value</span><span class="sub">Does it produce value people want?</span></span></li>
+      <li><span><span class="lab">Scale</span><span class="sub">Does it hold up under real volume?</span></span></li>
+      <li><span><span class="lab">Maturity</span><span class="sub">Can it be run and sustained?</span></span></li>
+    </ol>
+    <h3>Retiring market risk: get in front of real users</h3>
+    <div class="case">
+      <div class="tag">Case study · health appointment booking</div>
+      <p>The first version was a FormSG form feeding an Excel sheet.</p>
+      <blockquote style="margin:14px 0">This is not scalable, but it was the lowest-cost way to validate the approach.<cite>Module 5 · Assumptions and Risks</cite></blockquote>
+      <p>An A/B test settled the question:</p>
+      <div class="figures">
+        <div><div class="n c">0</div><div class="cap">bookings — control group</div></div>
+        <div><div class="n t">24</div><div class="cap">bookings — treatment group</div></div>
+      </div>
+      <p>Users also shared the link unprompted — a signal no amount of internal debate would have produced.</p>
+    </div>
+    <h3>Technical and team risk</h3>
+    <p>For <strong>technical risk</strong>, start with a proof of concept built for <em>testability, not scalability</em>: establish that the thing works before committing to building it properly.</p>
+    <p>For <strong>team risk</strong>, structure for speed, focus and flexibility — combine policy, operations and technical expertise in one team, with clear accountability for each role.</p>`,
+  q:"Why was a FormSG form feeding an Excel sheet the right first build for the appointment booking service?",
+  options:[
+    "It was already scalable enough to handle national rollout",
+    "It was the lowest-cost way to put the idea in front of real users and find out whether they would use it",
+    "It let the team validate the approach without needing engineers",
+    "Spreadsheets are the established pattern for booking systems"
+  ],
+  answer:1,
+  explain:`<p>The build was chosen to retire <strong>market risk</strong> — the question of whether anyone would use the service — at the lowest possible cost. The A/B test answered it decisively: zero bookings from the control group against 24 from the treatment group, with users passing the link on unprompted.</p>
+    <p>Its lack of scalability was understood and accepted, which is why option 1 inverts the point: the source says plainly that it was <em>not</em> scalable. Scale is a later stage, and paying for it before demand is proven is the waste this approach avoids. Options 3 and 4 attribute the decision to convenience or convention rather than to the risk being tested.</p>`
+},
+{
+  title:"A good customer experience",
+  short:"Customer experience",
+  lede:"Now, what does it actually feel like to use what we build?",
+  body:`
+    <p>Problem statement, metrics and risk all sit upstream of the moment someone opens the service. That moment is where the work is judged.</p>
+    <blockquote>Good customer experience isn't a nice-to-have, it's necessary. This is especially true when services are compulsory, because citizens don't have the option to go elsewhere.<cite>Module 6 · A Good Customer Experience</cite></blockquote>
+    <p>The argument turns on that second sentence. In a competitive market, a bad experience shows up as churn and the provider is forced to respond. A compulsory government service has no such feedback loop — users cannot leave, so poor design produces frustration, errors and avoidable support demand instead of a signal anyone is obliged to act on. The absence of an exit raises the duty of care rather than lowering it.</p>
+    <p>In practice, product thinking here means putting the user first, solving <em>specific</em> frustrations rather than general ones, and making smart trade-offs about what to fix.</p>
+    <h3>What the good ones have in common</h3>
+    <p>The best government digital products — <strong>ParkingSG</strong> and <strong>RedeemSG</strong> among them — share one trait: they remove a real, named frustration that users were experiencing before. Not an abstract improvement; a specific irritation someone can describe.</p>
+    <h3>The 11-star framework</h3>
+    <p>A tool for recalibrating ambition. Describe the experience at one star, then keep going past what is reasonable — to five, to seven, to eleven — forcing yourself to articulate an exceptionally high-quality experience rather than an adequate one. Most of what you describe at eleven stars is unbuildable, and that is the point:</p>
+    <blockquote>Somewhere between adequate and impossible lies an experience that's genuinely worth building.<cite>Module 6 · A Good Customer Experience</cite></blockquote>`,
+  q:"The lesson argues that customer experience matters even more for compulsory services than for optional ones. What is the reasoning?",
+  options:[
+    "Compulsory services usually carry larger budgets, so more is expected of them",
+    "Users have no alternative, so a poor experience cannot be escaped and never surfaces as a signal to switch",
+    "Compulsory services are used less frequently, so each interaction counts for more",
+    "Accessibility regulations apply more strictly to mandatory services"
+  ],
+  answer:1,
+  explain:`<p>Because citizens don't have the option to go elsewhere. A commercial service with a bad experience loses customers, and that loss is the pressure that forces a fix. A compulsory service has no exit, so the same bad experience produces frustration, errors and support calls — but no signal anyone is compelled to act on. Having a captive audience raises the obligation, it doesn't relax it.</p>
+    <p>The other options invoke budget, frequency or regulation. The lesson's argument rests on none of them; it rests on the absence of an alternative. This is also where the 11-star framework earns its place — it pushes teams past “adequate”, which is the standard a service with no competition tends to settle at.</p>`
+},
+{
+  title:"Key takeaways",
+  short:"Key takeaways",
+  lede:"Product thinking is a discipline of asking better questions before reaching for solutions.",
+  body:`
+    <p>It is not a phase that ends. It is a set of habits for diagnosing problems, making decisions, and learning from what you build — reapplied every time the situation changes.</p>
+    <h3>The toolkit, and when to reach for each</h3>
+    <div class="worked">
+      <div class="hd">Five tools · one pathway</div>
+      <dl>
+        <dt>5 Whys</dt><dd>When the problem in front of you is probably a symptom.</dd>
+        <dt>4Cs</dt><dd>When the team needs one statement to align on and hold to.</dd>
+        <dt>SMART + VCR</dt><dd>When you need to define success, and then justify continued investment in it.</dd>
+        <dt>Staged delivery</dt><dd>When assumptions are still untested and the cost of being wrong is rising.</dd>
+        <dt>11-star framework</dt><dd>When the team has quietly settled for adequate.</dd>
+      </dl>
+    </div>
+    <h3>Three mindset shifts</h3>
+    <ol class="seq">
+      <li><span><span class="lab">From solutions to problems</span><span class="sub">Diagnose the barrier before choosing the technology.</span></span></li>
+      <li><span><span class="lab">From outputs to outcomes</span><span class="sub">Define success as change achieved, not features shipped.</span></span></li>
+      <li><span><span class="lab">From big-bang to staged delivery</span><span class="sub">Retire risk in stages instead of betting everything on one release.</span></span></li>
+    </ol>
+    <p>The next step the pathway asks for is a practical one: take an initiative your team is already running and put these frameworks through it. That is what moves product thinking from something you have read to something you do.</p>`,
+  q:"Which set correctly names the three mindset shifts the pathway asks you to make?",
+  options:[
+    "From solutions to problems · from outputs to outcomes · from big-bang to staged delivery",
+    "From policy to technology · from cost to value · from manual to automated",
+    "From problems to solutions · from outcomes to outputs · from staged to big-bang delivery",
+    "From ideas to features · from features to launches · from launches to scale"
+  ],
+  answer:0,
+  explain:`<p>These three shifts are the spine of the whole pathway, and each one maps onto tools you have just used. <em>Solutions to problems</em> is the Five Whys and the 4Cs. <em>Outputs to outcomes</em> is SMART, leading and lagging indicators, and the VCR. <em>Big-bang to staged delivery</em> is proof of concept, proof of value, scale, maturity.</p>
+    <p>Option 3 is worth a second look: it names the right three pairs with every arrow reversed — which describes precisely the default behaviour product thinking exists to correct.</p>`
+}
+];
+
+const KEY = "idg-product-thinking-v1";
+const railEl = document.getElementById("rail");
+const lessonEl = document.getElementById("lesson");
+const scoreEl = document.getElementById("scorecard");
+const barFill = document.getElementById("bar-fill");
+const barLabel = document.getElementById("bar-label");
+const LETTERS = ["A","B","C","D"];
+
+let state = {current:0, answers:{}};
+try{
+  const saved = JSON.parse(localStorage.getItem(KEY) || "null");
+  if(saved && typeof saved === "object"){
+    state.current = Number.isInteger(saved.current) ? Math.min(Math.max(saved.current,0),LESSONS.length-1) : 0;
+    state.answers = (saved.answers && typeof saved.answers === "object") ? saved.answers : {};
+  }
+}catch(e){/* storage unavailable — start fresh */}
+
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){/* non-fatal */}
+}
+const answeredCount = () => Object.keys(state.answers).length;
+const correctCount = () => LESSONS.reduce((n,l,i)=> n + (state.answers[i] === l.answer ? 1 : 0), 0);
+
+function renderRail(){
+  railEl.innerHTML = "";
+  LESSONS.forEach((l,i)=>{
+    const li = document.createElement("li");
+    const given = state.answers[i];
+    li.dataset.state = given === undefined ? "todo" : (given === l.answer ? "correct" : "wrong");
+    const b = document.createElement("button");
+    b.type = "button";
+    if(i === state.current) b.setAttribute("aria-current","true");
+    b.innerHTML = `<span class="num">${String(i+1).padStart(2,"0")}</span><span class="txt">${l.short}</span>`;
+    b.setAttribute("aria-label",`Lesson ${i+1}: ${l.short}`);
+    b.addEventListener("click",()=>{ state.current = i; save(); render(); window.scrollTo({top:0,behavior:"smooth"}); });
+    li.appendChild(b);
+    railEl.appendChild(li);
+  });
+}
+
+function renderProgress(){
+  const n = answeredCount();
+  barFill.style.width = (n / LESSONS.length * 100) + "%";
+  barLabel.textContent = n === LESSONS.length
+    ? `${correctCount()} of ${LESSONS.length} correct`
+    : `${n} of ${LESSONS.length} answered`;
+}
+
+function renderLesson(){
+  const i = state.current, l = LESSONS[i];
+  const given = state.answers[i];
+  const answered = given !== undefined;
+
+  lessonEl.innerHTML = `
+    <div class="lesson-head">
+      <p class="eyebrow">Lesson ${String(i+1).padStart(2,"0")} of ${String(LESSONS.length).padStart(2,"0")}</p>
+      <h2>${l.title}</h2>
+      <p class="lede">${l.lede}</p>
+    </div>
+    ${l.body}
+    <section class="quiz" aria-labelledby="q-${i}">
+      <div class="quiz-hd">
+        <span class="tag">Check yourself</span>
+        <span class="state">${answered ? (given === l.answer ? "Answered · correct" : "Answered · incorrect") : "1 question"}</span>
+      </div>
+      <div class="quiz-body">
+        <p class="quiz-q" id="q-${i}">${l.q}</p>
+        <div class="opts" id="opts" role="group" aria-labelledby="q-${i}"></div>
+        <div class="explain" id="explain" hidden></div>
+      </div>
+    </section>
+    <nav class="lesson-nav">
+      <button class="btn" id="prev" ${i === 0 ? "disabled" : ""}>← Previous lesson</button>
+      <button class="btn primary" id="next" ${i === LESSONS.length-1 ? "disabled" : ""}>Next lesson →</button>
+    </nav>`;
+
+  const opts = lessonEl.querySelector("#opts");
+  l.options.forEach((text,oi)=>{
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "opt";
+    b.innerHTML = `<span class="k">${LETTERS[oi]}</span><span class="lbl">${text}</span><span class="mark"></span>`;
+    if(answered){
+      b.dataset.locked = "true";
+      if(oi === l.answer){ b.dataset.role = "correct"; b.querySelector(".mark").textContent = "Correct"; }
+      else if(oi === given){ b.dataset.role = "chosen-wrong"; b.querySelector(".mark").textContent = "Your answer"; }
+      else b.dataset.role = "muted";
+    }else{
+      b.addEventListener("click",()=>{ state.answers[i] = oi; save(); render(); });
+    }
+    opts.appendChild(b);
+  });
+
+  if(answered){
+    const ok = given === l.answer;
+    const ex = lessonEl.querySelector("#explain");
+    ex.hidden = false;
+    ex.innerHTML = `
+      <div class="verdict ${ok ? "ok" : "no"}">${ok ? "Correct" : "Not quite"}</div>
+      <h4>Why ${LETTERS[l.answer]} is the answer</h4>
+      ${l.explain}`;
+  }
+
+  const prev = lessonEl.querySelector("#prev");
+  const next = lessonEl.querySelector("#next");
+  prev.addEventListener("click",()=>{ if(state.current>0){ state.current--; save(); render(); window.scrollTo({top:0,behavior:"smooth"}); }});
+  next.addEventListener("click",()=>{ if(state.current<LESSONS.length-1){ state.current++; save(); render(); window.scrollTo({top:0,behavior:"smooth"}); }});
+}
+
+function renderScore(){
+  const done = answeredCount() === LESSONS.length;
+  scoreEl.hidden = !done;
+  if(!done) return;
+  const c = correctCount();
+  scoreEl.innerHTML = `
+    <div class="hd">
+      <p class="eyebrow">Pathway complete</p>
+      <h3><span class="score-num">${c}</span> <span style="font-size:19px; font-weight:600">of ${LESSONS.length} correct</span></h3>
+    </div>
+    <ol>${LESSONS.map((l,i)=>{
+      const g = state.answers[i], ok = g === l.answer;
+      return `<li><span class="n">${String(i+1).padStart(2,"0")}</span><span>${l.short}</span><span class="res ${ok?"ok":"no"}">${ok?"Correct":"Review"}</span></li>`;
+    }).join("")}</ol>
+    <div class="ft">
+      <button class="btn" id="review">Review the lessons you missed</button>
+      <button class="btn" id="reset">Start over</button>
+    </div>`;
+  const firstMiss = LESSONS.findIndex((l,i)=> state.answers[i] !== l.answer);
+  const reviewBtn = scoreEl.querySelector("#review");
+  if(firstMiss === -1){ reviewBtn.disabled = true; reviewBtn.textContent = "Nothing to review"; }
+  else reviewBtn.addEventListener("click",()=>{ state.current = firstMiss; save(); render(); window.scrollTo({top:0,behavior:"smooth"}); });
+  scoreEl.querySelector("#reset").addEventListener("click",()=>{
+    state = {current:0, answers:{}}; save(); render(); window.scrollTo({top:0,behavior:"smooth"});
+  });
+}
+
+function render(){ renderRail(); renderProgress(); renderLesson(); renderScore(); }
+
+if(window.claude?.hot?.snapshot) window.claude.hot.snapshot(()=>state);
+const boot = (data)=>{ if(data && data.answers){ state = data; } render(); };
+if(window.claude?.hot?.ready) window.claude.hot.ready(boot); else boot(window.claude?.hot?.data ?? null);
+</script>
